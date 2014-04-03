@@ -24,7 +24,7 @@ function Update () {
 					textfield.text += "|";
 				}
 
-			}else if(c == "\n"[0] || c == "\r"[0] && textfield.text.Length == 7){
+			}else if(c == "\n"[0] || c == "\r"[0]){
 				textfield.text = textfield.text.Substring(0, textfield.text.Length - 1);
 				currentMode = 0;
 			}
@@ -41,16 +41,15 @@ function Update () {
 }
 
 function setElement (name : int, message : String){
-		textOutputs[name].text = message;
-
+	textOutputs[name].text = message;
 }
 
 function randomSeed (){
-		var seedString : String;
-		for ( var i : int = 0 ; i < 7 ; i++ ){
-			var randoVal = Mathf.Round(Random.value * 9);
-			seedString += randoVal.ToString();
-		}
+	var seedString : String;
+	for ( var i : int = 0 ; i < 7 ; i++ ){
+		var randoVal = Mathf.Round(Random.value * 9);
+		seedString += randoVal.ToString();
+	}
 	if(currentMode == 1){
 		currentMode = 0;
 	}
@@ -77,22 +76,44 @@ if(currentMode == 1){
 }
 
 function ShiftWorld( direction : boolean ){
-if(builder.state == 5){
-		builder.unload();
-	if(direction == true){
-		if( LoadWorld( "", builder.worldNum +1, Vector2(10,10)) ){
-			builder.state = 1;
-			return true;
+	if(builder.state == 5){
+			builder.unload();
+		if(direction == true){
+			if( LoadWorld( "", builder.worldNum +1, Vector2(10,10)) ){
+				builder.state = 1;
+				return true;
+			}
+		}else{
+			if( LoadWorld( "", builder.worldNum -1, Vector2(10,10)) ){
+				builder.state = 1;
+				return true;
+			}
 		}
-	}else{
-		if( LoadWorld( "", builder.worldNum -1, Vector2(10,10)) ){
-			builder.state = 1;
-			return true;
+		
+	}
+}
+
+function JumpWorld ( id : String )
+{
+	if(currentMode == 1){
+		currentTarget.GetComponent(TextMesh).text = currentTarget.GetComponent(TextMesh).text.Substring(0, currentTarget.GetComponent(TextMesh).text.Length - 1);	
+		currentMode = 0;
+	}
+	if(builder.state == 5){
+		builder.unload();
+		if (id == "field"){
+			if(LoadWorld( "", int.Parse(textOutputs[1].text), Vector2(10,10)))
+			{
+				builder.state = 1;
+				return true;
+			}
+		}else{
+			if(LoadWorld( "", int.Parse(id), Vector2(10,10)))
+			{
+				builder.state = 1;
+			}
 		}
 	}
-	
-}
-	
 }
 
 function DestroyWorld ( ){
