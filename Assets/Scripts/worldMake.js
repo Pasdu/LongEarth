@@ -73,7 +73,6 @@ function makeWorld ( seed : String, worldID : int, size : Vector2) {
 			offset.x += 10;
 		}
 	}
-	Debug.Log(worldNum);
 	return true;
 	
 }
@@ -81,8 +80,6 @@ function makeWorld ( seed : String, worldID : int, size : Vector2) {
 function GenerateLand(){
 	var threshhold : float;
 	var variance : float = (worldNum / 2) * 0.009 * (Random.value/2);
-	
-	Debug.Log(variance);
 	for( var x : int = 0 ; x < 10; x++ ){
 		for( var y : int = 0 ; y < 10; y++){
 			//If it's on the edge
@@ -162,17 +159,23 @@ function GenerateForests(){
 }
 
 function GenerateVillage(){
-
-if (worldNum%25 == 0){	
-	for( var x : int = 0 ; x < 10; x++ ){
-		for( var y : int = 0 ; y < 10; y++){
-			if(blockTypes[x,y] == 1)
-			{
-
-					var rnd = Random.value;
-					if(rnd > 0.94)
-					{
-						AssignBlock(4,x,y);
+	if (worldNum%25 == 0 || worldNum%2 == 0){
+	var threshhold : float;
+	var rand : float;
+		for( var x : int = 0 ; x < 10; x++ ){
+			for( var y : int = 0 ; y < 10; y++){
+				if(blockTypes[x,y] == 1)
+				{
+					rand = Random.value;
+					if(worldNum%25 == 0){
+						threshhold = 0.8;
+					}else if(worldNum%2 == 0 && rand < 0.7){
+						return true;
+					}else if(worldNum%2 == 0 && rand >= 0.7){
+						threshhold = 0.9;
+					}
+					if (Random.value > threshhold){
+							AssignBlock(4,x,y);
 						return true;
 					}
 				}
@@ -180,7 +183,7 @@ if (worldNum%25 == 0){
 		}
 	}else{
 		return true;
-		}	
+	}
 }
 
 function AssignBlock (blockType : int, x : int , y : int){
