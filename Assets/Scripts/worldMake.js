@@ -86,8 +86,9 @@ function GenerateLand(){
 	variance is just a little idea I'm playing with in order to change
 	the basic land mass as you move stepwise */
 	var threshhold : float;
-	Random.seed += worldNum;
+	//Random.seed += worldNum;
 	plainsBlocks = new Array (Vector2(0,0));
+	plainsBlocks.pop();
 	var i : int = 0;
 	/* These loops are supposed to run an RNG against the threshhold
 	and place blocks of land based on some simple rules, for the most
@@ -103,21 +104,22 @@ function GenerateLand(){
 				threshhold = 0.6;
 			}
 			
-			if( x > 1 && x < 8){
-				threshhold -= 0.25;
+			if( x > 1 && x < 9){
+				threshhold -= .25;
 			}
 			if( y > 1 && y < 8){
-				threshhold -= 0.25;
+				threshhold -= .25;
 			}
 			if( Random.value > threshhold ){
 				AssignBlock(1,Vector2(x,y));
-				plainsBlocks[i] = Vector2(x,y);
+				plainsBlocks.Push(Vector2(x,y));
+				Debug.Log(plainsBlocks.length);
 				i++;	
 			}
 				
 		}
 	}
-	Random.seed = seedNum;
+	//Random.seed = seedNum;
 	return true;
 }
 
@@ -132,39 +134,47 @@ function GenerateQuarries(){
 }
 
 function GenerateForests(){
-	var skip : int = Mathf.Round(Random.value * 3);
-	var skipRan : float = Random.value;
-	for( var i : int = 0 ; i < plainsBlocks.length; i++ ){
+	var skip : int = 0;
+	var skipRan : int ;
+	Random.seed = Random.seed + worldNum;
+	var ioffset : int = 0;
+	var blockCount = plainsBlocks.length;
+	for( var i : int = 0 ; i < blockCount; i++ ){
 			if(skip == 0){
-				AssignBlock(2, plainsBlocks[i]);
-				plainsBlocks.RemoveAt(i);
-				skipRan = Random.value;
-				if (skipRan > 0.8){
-					skip = 6;
-				}else if(skipRan >= 0.3 && skipRan <= 0.8){
+				AssignBlock(2, plainsBlocks[0]);
+				plainsBlocks.Shift();
+				skipRan = Mathf.Round(Random.value* 10);
+				
+				if(skipRan < 5){
 					skip = 0;
-				}else if(skipRan < 0.3){
+				}else if(skipRan >=5 && skipRan <= 7){
+					skip = Mathf.Round((Random.value * 4 )+3);
+				}else{
 					skip = 2;
 				}
+						
 			}else if(skip != 0){
 				skip--;
+				plainsBlocks.Push(plainsBlocks[0]);
+				plainsBlocks.Shift();
 			}
 			
 		}	
+	Random.seed = seedNum;
 	return true;
 }
 
 function GenerateVillage(){
-	if (worldNum%25 == 0 || worldNum%2 == 0){
 	var threshhold : float;
 	Random.seed += worldNum;
 	var rand : float;
-	var skip : int =  Mathf.Round((Random.value*3) + 2);
+	var skip : int =  Mathf.Round((Random.value*5) + 2);
+
 	for( var i : int = 0 ; i < plainsBlocks.length; i++ ){
 					if(worldNum%25 == 0){
-						threshhold = 0.8;
+						threshhold = 0.89;
 					}else if(worldNum%skip == 0){
-						threshhold = 0.99;
+						threshhold = 0.92;
 					}else{
 						threshhold = 1;
 					}
@@ -172,7 +182,6 @@ function GenerateVillage(){
 							AssignBlock(4,plainsBlocks[i]);
 					}
 		}
-	}
 	Random.seed = seedNum;
 	return true;
 }

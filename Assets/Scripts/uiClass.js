@@ -86,6 +86,10 @@ if(currentMode == 1){
 }
 
 function ShiftWorld( direction : boolean ){
+	if(currentMode == 1){
+		currentTarget.GetComponent(TextMesh).text = currentTarget.GetComponent(TextMesh).text.Substring(0, currentTarget.GetComponent(TextMesh).text.Length - 1);	
+		currentMode = 0;
+	}
 	if(builder.state == 5){
 			builder.unload();
 		if(direction == true){
