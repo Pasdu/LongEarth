@@ -1,4 +1,22 @@
-Inspired by Terry Pratchett and Stephen Baxter.
-Driven by pure ignorant willpower.
-The Unity blockbuster of the century.
-"A LONG EARTH"
+Inspired by Terry Pratchett and Stephen Baxter, driven by pure ignorant willpower.
+The unity blockbuster of the millenia. I present 'A LONG EARTH'
+
+Look I'll be honest, I don't exactly know what I'm doing here, this is a learning project.
+
+But the basic premise is this:
+The Long Earth is a kind of linear multiverse. There's an analogy about a deck of cards but we needn't and shouldn't get into that just now. The basic premise is that you can 'step' in two (arbitrarily named) directions; east and west into completely new worlds.
+
+Each world is a re-representation of earth, and not all worlds are the same. I'm not here today to get into the specifics on the intricacies of the system (read the book,
+seriously). The important part here really is that in the first book (The Long Earth) we are given the image of a man, Joshua in a massive airship, flipping through the worlds. Exploring.
+
+My concept is simple, you see, I played a lot of minecraft recently, and took interest in projects like landmark, this whole voxel thing. Maybe that got me thinking in boxes, but I took it somewhere else entirely.
+
+When you run my project now and get a world generated, a 10x10 grid of blocks represents the 'world' (yeah, it's really not much of a world, but this isn't set in stone) each block is given a type annnnd that's about it.
+
+I just shoved a few blocktypes in and started playing with the concept, but what I see as being the 'complete' game would be similar to that image of Joshua in his airship, flipping through worlds.
+
+I want certain elements to interact within their own environments in ways that I can just switch off when you're not around. I want the player to be able to re-shape their multiverse. I want the player to have things to do, firstly in a sand box way, but also in an adventure questing simple story driven way. Certain elements like gap worlds (worlds where there is no earth at all) open up opportunity to tell a story and open the door to space, after all the next book in the series is titled 'The Long Mars'!
+
+Then there's the Jokers, planets which for some reason or another have been knocked out of the average probability curve we seem to exist in and have radically different properties. Some have horribly harsh, unsurvivable elements, some have drastic changes in local flora and fauna- if any of either at all. Jokers let me throw a wrench in my algorithm every once in a while and if I can figure it out right- produce some really interesting results.
+
+So for now I've created a little shape / colour generator. Graphically it's nothing to look at, I'm going to start with some textures for my blocks and eventually would like to move in to creating some kind of 3d graphical representation of the different blocks. As it is it has a pretty RTS kinda feel going and I really could hack the 3d stuff, I think it would be a good look, not that I need to worry about any of that quite yet.

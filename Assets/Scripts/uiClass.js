@@ -1,10 +1,18 @@
 ﻿#pragma strict
 var builder : worldMake;
 var currentMode : int = 0;
+/* currentMode values
+currentMode is used to keep track of what the
+user is currently doing, mostly used to make sure
+they can't press buttons they should not be able to.
+
+0 - idle
+1 - Editing a field
+*/
 var currentTarget : GameObject;
 
 public var textOutputs : TextMesh[];
-/*
+/* textOutputs Array Indexes
 0 - Seed Field
 1 - worldID Field
 2 - Target Field
@@ -15,6 +23,7 @@ function Start () {
 }
 
 function Update () {
+	
 	if(currentMode == 1){
 		var textfield : TextMesh = currentTarget.GetComponent(TextMesh);
 		for(var c : char in Input.inputString){
@@ -71,8 +80,9 @@ if(currentMode == 1){
 		builder.state = 1;
 		setElement(0,source);
 		setElement(1, worldID.ToString());
-		return true;
 	}
+	
+	return true;
 }
 
 function ShiftWorld( direction : boolean ){
@@ -81,12 +91,10 @@ function ShiftWorld( direction : boolean ){
 		if(direction == true){
 			if( LoadWorld( "", builder.worldNum +1, Vector2(10,10)) ){
 				builder.state = 1;
-				return;
 			}
 		}else{
 			if( LoadWorld( "", builder.worldNum -1, Vector2(10,10)) ){
 				builder.state = 1;
-				return;
 			}
 		}
 		

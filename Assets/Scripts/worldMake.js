@@ -78,8 +78,14 @@ function makeWorld ( seed : String, worldID : int, size : Vector2) {
 }
 	
 function GenerateLand(){
+	/* Threshhold to compare against the RNG
+	plainsBlocks is the landblocks that will be used for the next steps	
+	variance is just a little idea I'm playing with in order to change
+	the basic land mass as you move stepwise */
 	var threshhold : float;
+	var plainsBlocks : Vector2[] ;
 	var variance : float = (worldNum / 2) * 0.009 * (Random.value/2);
+
 	for( var x : int = 0 ; x < 10; x++ ){
 		for( var y : int = 0 ; y < 10; y++){
 			//If it's on the edge
@@ -112,6 +118,7 @@ function GenerateLand(){
 			
 			if( Random.value > threshhold ){
 				AssignBlock(1,x,y);
+				
 			}
 				
 		}
