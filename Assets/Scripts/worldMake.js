@@ -170,20 +170,17 @@ function GenerateVillage(){
 					if(worldNum%25 == 0){
 						threshhold = 0.8;
 					}else if(worldNum%2 == 0 && rand < 0.7){
-						return true;
 					}else if(worldNum%2 == 0 && rand >= 0.7){
 						threshhold = 0.9;
 					}
 					if (Random.value > threshhold){
 							AssignBlock(4,x,y);
-						return true;
 					}
 				}
 			}
 		}
-	}else{
-		return true;
 	}
+	return true;
 }
 
 function AssignBlock (blockType : int, x : int , y : int){

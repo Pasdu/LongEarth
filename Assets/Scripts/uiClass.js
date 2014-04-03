@@ -19,7 +19,7 @@ function Update () {
 		var textfield : TextMesh = currentTarget.GetComponent(TextMesh);
 		for(var c : char in Input.inputString){
 			if (c == "\b"[0]){
-				if(textfield.text.Length != 0){
+				if(textfield.text.Length != 1){
 					textfield.text = textfield.text.Substring(0, textfield.text.Length - 2);
 					textfield.text += "|";
 				}
@@ -81,12 +81,12 @@ function ShiftWorld( direction : boolean ){
 		if(direction == true){
 			if( LoadWorld( "", builder.worldNum +1, Vector2(10,10)) ){
 				builder.state = 1;
-				return true;
+				return;
 			}
 		}else{
 			if( LoadWorld( "", builder.worldNum -1, Vector2(10,10)) ){
 				builder.state = 1;
-				return true;
+				return;
 			}
 		}
 		
@@ -105,7 +105,7 @@ function JumpWorld ( id : String )
 			if(LoadWorld( "", int.Parse(textOutputs[1].text), Vector2(10,10)))
 			{
 				builder.state = 1;
-				return true;
+				return;
 			}
 		}else{
 			if(LoadWorld( "", int.Parse(id), Vector2(10,10)))
@@ -123,11 +123,10 @@ function DestroyWorld ( ){
 }
 
 function GetStatus( ){
-	if(builder.state == 5){
-		return true;
-	}else{
+	if(builder.state != 5){
 		return false;
 	}
+		return true;
 }
 
 function BeginInput(field : int) {
