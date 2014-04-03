@@ -62,7 +62,7 @@ function randomSeed (){
 	if(currentMode == 1){
 		currentMode = 0;
 	}
-	builder.seedNum = seedString;
+	builder.seedNum = int.Parse(seedString);
 	setElement(3, seedString);
 }  
 
