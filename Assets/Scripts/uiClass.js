@@ -1,6 +1,9 @@
 ﻿#pragma strict
 var builder : worldMake;
 var currentMode : int = 0;
+var maketime : int;
+var currentTime : int;
+var flag : boolean = false;
 /* currentMode values
 currentMode is used to keep track of what the
 user is currently doing, mostly used to make sure
@@ -17,12 +20,16 @@ public var textOutputs : TextMesh[];
 1 - worldID Field
 2 - Target Field
 3 - seedText - for writing seeds
+4 - timerText - for displaying the time
 */
 function Start () {
 	builder = GetComponent(worldMake);
 }
 
 function Update () {
+	if(flag == true){
+		textOutputs[4].text = Mathf.Round((Time.time - maketime)/10).ToString();
+	}
 	
 	if(currentMode == 1){
 		var textfield : TextMesh = currentTarget.GetComponent(TextMesh);
@@ -78,6 +85,10 @@ if(currentMode == 1){
 	}
 	if( builder.makeWorld( source, worldID, size) ){
 		builder.state = 1;
+		if(flag == false){
+			maketime = Time.time;
+			flag = true;
+		}
 		setElement(0,source);
 		setElement(1, worldID.ToString());
 	}
@@ -92,6 +103,7 @@ function ShiftWorld( direction : boolean ){
 	}
 	if(builder.state == 5){
 			builder.unload();
+			flag = true;
 		if(direction == true){
 			if( LoadWorld( "", builder.worldNum +1, Vector2(10,10)) ){
 				builder.state = 1;
@@ -113,6 +125,7 @@ function JumpWorld ( id : String )
 	}
 	if(builder.state == 5){
 		builder.unload();
+		flag = true;
 		if (id == "field"){
 			if(LoadWorld( "", int.Parse(textOutputs[1].text), Vector2(10,10)))
 			{
@@ -132,6 +145,9 @@ function DestroyWorld ( ){
 	builder.unload();
 	setElement(2, "None");
 	setElement(1, "0");
+	flag = false;
+	maketime = 0;
+	textOutputs[4].text = "";
 }
 
 function GetStatus( ){

@@ -113,7 +113,6 @@ function GenerateLand(){
 			if( Random.value > threshhold ){
 				AssignBlock(1,Vector2(x,y));
 				plainsBlocks.Push(Vector2(x,y));
-				Debug.Log(plainsBlocks.length);
 				i++;	
 			}
 				
@@ -121,6 +120,10 @@ function GenerateLand(){
 	}
 	//Random.seed = seedNum;
 	return true;
+}
+
+function OffsetLand ( ){
+
 }
 
 function GenerateQuarries(){
