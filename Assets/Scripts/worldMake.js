@@ -71,7 +71,7 @@ function makeWorld ( seed : String, worldID : int, size : Vector2) {
 			blocks[x,y] = spawnBlock.gameObject;
 			
 			var assigner : BlockAssigner = spawnBlock.GetComponent(BlockAssigner);
-			assigner.assignBlock(0);
+			assigner.assignBlock(0, Vector2(x,y));
 			spawnBlock.renderer.material = draftMats[0];
 			offset.x += 10;
 		}
@@ -191,7 +191,7 @@ function GenerateVillage(){
 
 function AssignBlock (blockType : int, coords: Vector2){
 		var assigner : BlockAssigner = blocks[coords.x,coords.y].GetComponent(BlockAssigner);
-		assigner.assignBlock(blockType);
+		assigner.assignBlock(blockType, coords);
 		blocks[coords.x,coords.y].renderer.material = draftMats[blockType];
 		blockTypes[coords.x,coords.y] = blockType;
 

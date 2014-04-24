@@ -57,5 +57,25 @@ function OnMouseDown() {
 		case 5:
 			uiElement.JumpWorld("field");
 			break;
+		case 6:
+		//Feelsluck button
+			uiElement.randomSeed();
+			if(uiElement.GetStatus()){
+				GameObject.Find("GenButton").GetComponent(TextMesh).text = "Generate";
+				uiElement.DestroyWorld();
+			
+			}
+			if( !uiElement.GetStatus() ){
+				if( uiElement.LoadWorld("",0,Vector2(10,10)) ){
+					GameObject.Find("GenButton").GetComponent(TextMesh).text = "Unload";
+				}else{
+					Debug.Log("Seed Being Edited, try again");
+				}
+			}else{
+				uiElement.DestroyWorld();
+			}
+			break;
+		case 7:
+			uiElement.ChangeTile(val);
 	}
 }

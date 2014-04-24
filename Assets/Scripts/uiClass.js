@@ -3,6 +3,7 @@ var builder : worldMake;
 var currentMode : int = 0;
 var maketime : int;
 var currentTime : int;
+var targetCoords : Vector2;
 var flag : boolean = false;
 /* currentMode values
 currentMode is used to keep track of what the
@@ -13,6 +14,7 @@ they can't press buttons they should not be able to.
 1 - Editing a field
 */
 var currentTarget : GameObject;
+var textTarget : TextMesh;
 
 public var textOutputs : TextMesh[];
 /* textOutputs Array Indexes
@@ -32,7 +34,7 @@ function Update () {
 	}
 	
 	if(currentMode == 1){
-		var textfield : TextMesh = currentTarget.GetComponent(TextMesh);
+		var textfield : TextMesh = textTarget;
 		for(var c : char in Input.inputString){
 			if (c == "\b"[0]){
 				if(textfield.text.Length != 1){
@@ -75,14 +77,14 @@ function randomSeed (){
 
 function LoadWorld ( source : String, worldID : int, size : Vector2 ) {
 if(currentMode == 1){
-	if(currentTarget.GetComponent(TextMesh).text.Length == 8){
-		currentTarget.GetComponent(TextMesh).text = currentTarget.GetComponent(TextMesh).text.Substring(0, currentTarget.GetComponent(TextMesh).text.Length - 1);
+	if(textTarget.text.Length == 8){
+		textTarget.text = textTarget.text.Substring(0, textTarget.text.Length - 1);
 		currentMode = 0;
 	}
-	}
-	if (source == ""){
-		source = textOutputs[3].text;
-	}
+}
+if (source == ""){
+	source = textOutputs[3].text;
+}
 	if( builder.makeWorld( source, worldID, size) ){
 		builder.state = 1;
 		if(flag == false){
@@ -98,11 +100,11 @@ if(currentMode == 1){
 
 function ShiftWorld( direction : boolean ){
 	if(currentMode == 1){
-		currentTarget.GetComponent(TextMesh).text = currentTarget.GetComponent(TextMesh).text.Substring(0, currentTarget.GetComponent(TextMesh).text.Length - 1);	
+		textTarget.text = textTarget.text.Substring(0, textTarget.text.Length - 1);	
 		currentMode = 0;
 	}
 	if(builder.state == 5){
-			builder.unload();
+			DestroyWorld();
 			flag = true;
 		if(direction == true){
 			if( LoadWorld( "", builder.worldNum +1, Vector2(10,10)) ){
@@ -120,7 +122,7 @@ function ShiftWorld( direction : boolean ){
 function JumpWorld ( id : String )
 {
 	if(currentMode == 1){
-		currentTarget.GetComponent(TextMesh).text = currentTarget.GetComponent(TextMesh).text.Substring(0, currentTarget.GetComponent(TextMesh).text.Length - 1);	
+		textTarget.text = textTarget.text.Substring(0, textTarget.text.Length - 1);	
 		currentMode = 0;
 	}
 	if(builder.state == 5){
@@ -145,6 +147,7 @@ function DestroyWorld ( ){
 	builder.unload();
 	setElement(2, "None");
 	setElement(1, "0");
+	setElement(5, "");
 	flag = false;
 	maketime = 0;
 	textOutputs[4].text = "";
@@ -161,7 +164,45 @@ function BeginInput(field : int) {
 	if(currentMode == 0){
 		currentMode = 1;
 		textOutputs[field].text += "|";
-		currentTarget = textOutputs[field].gameObject;
+		textTarget = textOutputs[field];
 	}
 
+}
+
+function SetTarget(target : GameObject, title : String){
+	if(target != this.gameObject){
+		currentTarget = target;
+		targetCoords = currentTarget.GetComponent(BlockAssigner).coords;
+		setElement(2, title);
+		setElement(5, "(" + targetCoords.y + "," + targetCoords.x + ")");
+	}else{
+		currentTarget = this.gameObject;
+	}
+}
+
+function ChangeTile( val : int ){
+	if(currentTarget != this.gameObject){
+		var block = currentTarget.GetComponent(BlockAssigner);
+		var signal : Vector2;
+		switch(val){
+			case 0:
+				if(block.type <= 3){
+					signal.x = block.type + 1;
+				}
+			break;
+			case 1:
+				if(block.type >= 1){
+					signal.x = block.type - 1;
+				}else{
+					signal.x = 4;
+				}
+			break;
+			case 2:
+				if(block.type == 0){
+				break;
+				}
+		}
+		signal.y = 0;
+		block.SetBlock(signal);
+	}
 }
