@@ -198,10 +198,9 @@ function ChangeTile( val : int ){
 				}
 			break;
 			case 2:
-				if(block.type == 0){
+				signal.x = block.type;
 				break;
-				}
-		}
+			}
 		signal.y = 0;
 		block.SetBlock(signal);
 	}
